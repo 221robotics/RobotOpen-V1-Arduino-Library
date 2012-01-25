@@ -75,7 +75,7 @@ void loop() {
     }
   }
   
-  if (((millis() - packetMillis) >= 250) || (millis() < 200)) {
+  if (((millis() - packetMillis) >= 250) || (millis() < 250)) {
     disabled();
   }
 }
