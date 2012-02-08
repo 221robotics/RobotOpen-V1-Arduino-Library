@@ -99,7 +99,7 @@ void processSerial() {
 
 void update() {
   for(int i=0; i <= 10; i++) {
-    servos[i].write((int)map((int)serialData[i+2], 0, 255, 0, 180));
+    servos[i].write((int)map((int)serialData[i+2], 0, 255, 544, 2400));
   }
 }
 
