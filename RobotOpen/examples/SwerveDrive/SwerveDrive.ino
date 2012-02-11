@@ -30,7 +30,7 @@ int rearPotTurns = 0;
 void setup()
 {
   /* Initiate comms */
-  RobotOpen::init();
+  RobotOpen.begin();
 }
 
 
@@ -61,18 +61,18 @@ void enabled() {
     
   // Steering motors
   if (rawFrontError > TURNING_CUTOFF || rawFrontError + TURNING_CUTOFF < 0)
-    RobotOpen::setPWM(SIDECAR_PWM7, map(frontError, -512, 511, 0, 255));
+    RobotOpen.setPWM(SIDECAR_PWM3, map(frontError, -512, 511, 0, 255));
   else
-    RobotOpen::setPWM(SIDECAR_PWM7, 127);
+    RobotOpen.setPWM(SIDECAR_PWM3, 127);
         
   if (rawRearError > TURNING_CUTOFF || rawRearError + TURNING_CUTOFF < 0)
-    RobotOpen::setPWM(SIDECAR_PWM8, map(rearError, -512, 511, 0, 255));
+    RobotOpen.setPWM(SIDECAR_PWM4, map(rearError, -512, 511, 0, 255));
   else
-    RobotOpen::setPWM(SIDECAR_PWM8, 127);
+    RobotOpen.setPWM(SIDECAR_PWM4, 127);
           
   // Drive motors
-  RobotOpen::setPWM(SIDECAR_PWM9, usb1.makePWM(LOGITECH_LEFTY, NORMAL));
-  RobotOpen::setPWM(SIDECAR_PWM10, usb1.makePWM(LOGITECH_LEFTY, INVERT));
+  RobotOpen.setPWM(SIDECAR_PWM1, usb1.makePWM(LOGITECH_LEFTY, NORMAL));
+  RobotOpen.setPWM(SIDECAR_PWM2, usb1.makePWM(LOGITECH_LEFTY, INVERT));
 }
 
 
@@ -81,7 +81,7 @@ void enabled() {
  * to safe/disable values here
  */
 void disabled() {
-  // Nothing here
+  // PWMs are automatically disabled
 }
 
 
@@ -107,12 +107,12 @@ void timedtasks() {
   lastFrontPOT = frontPOT;
   lastRearPOT = rearPOT;
   
-  RobotOpen::publishAnalog(ANALOG1, 'A');   // Bundle A
-  RobotOpen::publishAnalog(ANALOG2, 'B');   // Bundle B
-  RobotOpen::publishAnalog(ANALOG3, 'C');   // Bundle C
-  RobotOpen::publishAnalog(ANALOG4, 'D');   // Bundle D
-  RobotOpen::publishAnalog(ANALOG5, 'E');   // Bundle E
-  RobotOpen::publishAnalog(ANALOG6, 'F');   // Bundle F
+  RobotOpen.publishAnalog(ANALOG0, 'A');   // Bundle A
+  RobotOpen.publishAnalog(ANALOG1, 'B');   // Bundle B
+  RobotOpen.publishAnalog(ANALOG2, 'C');   // Bundle C
+  RobotOpen.publishAnalog(ANALOG3, 'D');   // Bundle D
+  RobotOpen.publishAnalog(ANALOG4, 'E');   // Bundle E
+  RobotOpen.publishAnalog(ANALOG5, 'F');   // Bundle F
 }
 
 
@@ -120,11 +120,11 @@ void timedtasks() {
  * There's no need to touch anything here!!!
  */
 void loop() {
-  RobotOpen::pollDS();
-  if (RobotOpen::enabled())
+  RobotOpen.pollDS();
+  if (RobotOpen.enabled())
     enabled();
   else
     disabled();
   timedtasks();
-  RobotOpen::outgoingDS();
+  RobotOpen.outgoingDS();
 }

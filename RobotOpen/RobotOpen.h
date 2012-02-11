@@ -61,12 +61,12 @@
 #define NORMAL 0
 
 // Sidecar Mapping
-#define ANALOG1 0
-#define ANALOG2 1
-#define ANALOG3 2
-#define ANALOG4 3
-#define ANALOG5 4
-#define ANALOG6 5
+#define ANALOG0 0
+#define ANALOG1 1
+#define ANALOG2 2
+#define ANALOG3 3
+#define ANALOG4 4
+#define ANALOG5 5
 #define SIDECAR_DIGITAL1 7
 #define SIDECAR_DIGITAL2 6
 #define SIDECAR_DIGITAL3 5
@@ -92,10 +92,11 @@ typedef struct {
    unsigned int payloadIndex;
 } bundleInfo;
 
-class RobotOpen {
+
+class RobotOpenClass {
 public:
     // Fire up the RobotOpen object and get things running
-    static void init();
+    static void begin();
     
     // Check for fresh data
     static void pollDS();
@@ -113,7 +114,7 @@ public:
     static void publishAnalog(int pin, unsigned char bundleID);
     static void publishDigital(int pin, unsigned char bundleID);
     static void publishByte(unsigned char byteRead, unsigned char bundleID);
-    static void publishShort(unsigned int valueRead, unsigned char bundleID);
+    static void publishInt(unsigned int valueRead, unsigned char bundleID);
     static void publishLong(long valueRead, unsigned char bundleID);
     
 	// Get the number of components in a particular bundle
@@ -137,6 +138,8 @@ private:
     // CRC16 checksum function
     static unsigned int calc_crc16(unsigned char *buf, unsigned short len);
 };
+
+extern RobotOpenClass RobotOpen;
 
 class USBJoystick
 {

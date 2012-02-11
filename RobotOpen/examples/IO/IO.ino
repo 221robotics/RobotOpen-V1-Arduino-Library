@@ -11,6 +11,10 @@ void setup()
 {
   /* Initiate comms */
   RobotOpen.begin();
+  
+  // Configure Digital I/O
+  pinMode(SIDECAR_DIGITAL1, OUTPUT);
+  pinMode(SIDECAR_DIGITAL2, OUTPUT);
 }
 
 
@@ -18,9 +22,9 @@ void setup()
  * should live here that allows the robot to operate
  */
 void enabled() {
-  // Constantly update PWM values with joystick values
-  RobotOpen.setPWM(SIDECAR_PWM1, usb1.makePWM(LOGITECH_LEFTY, NORMAL));
-  RobotOpen.setPWM(SIDECAR_PWM2, usb1.makePWM(LOGITECH_RIGHTY, INVERT));
+  // Just like the setPWM function, you can set the mode of a button as NORMAL or INVERT
+  digitalWrite(SIDECAR_DIGITAL1, usb1.getBtn(LOGITECH_BTN1, NORMAL));
+  digitalWrite(SIDECAR_DIGITAL2, usb1.getDpad(LOGITECH_DPAD, UP, NORMAL));
 }
 
 
@@ -29,7 +33,8 @@ void enabled() {
  * to safe/disable values here
  */
 void disabled() {
-  // PWMs are automatically disabled
+  digitalWrite(SIDECAR_DIGITAL1, LOW);
+  digitalWrite(SIDECAR_DIGITAL2, LOW);
 }
 
 

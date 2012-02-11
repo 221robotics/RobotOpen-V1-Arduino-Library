@@ -93,7 +93,9 @@ static unsigned int _remotePort = 0; // holds received packet's originating port
 // A UDP instance to let us send and receive packets over UDP
 EthernetUDP Udp;
 
-void RobotOpen::init() {
+RobotOpenClass RobotOpen;
+
+void RobotOpenClass::begin() {
     // Setup the initial pointers to the arrays
     _packetBufferAccessor = _packetBuffer;
     _validPacketAccessor = _validPacket;
@@ -107,7 +109,7 @@ void RobotOpen::init() {
     Serial.begin(115200);	// This is used to talk to the coprocessor on the RobotOpen shield
 }
 
-void RobotOpen::pollDS() {
+void RobotOpenClass::pollDS() {
     // Process any data sitting in the buffer
     handleData();
   
@@ -121,7 +123,7 @@ void RobotOpen::pollDS() {
 }
 
 // This function's purpose is to receive data and prepare it for parsing
-void RobotOpen::handleData() {
+void RobotOpenClass::handleData() {
 	_packetBufferSize = Udp.parsePacket();
     
     // If there's data, read the packet in
@@ -133,7 +135,7 @@ void RobotOpen::handleData() {
     }
 }
 
-void RobotOpen::parsePacket() {
+void RobotOpenClass::parsePacket() {
     /* ---PACKET FORMAT---
      * Message Type (1 byte)
      * Protocol Version (1 byte)
@@ -160,7 +162,7 @@ void RobotOpen::parsePacket() {
     }
 }
 
-void RobotOpen::setPWM(int pwmChannel, int value) {
+void RobotOpenClass::setPWM(int pwmChannel, int value) {
 	if (pwmChannel > 0 && pwmChannel <= 10) {
 		if (value > 255)
 			value = 255;
@@ -170,7 +172,7 @@ void RobotOpen::setPWM(int pwmChannel, int value) {
 	}
 }
 
-void RobotOpen::swapValidPacket() {
+void RobotOpenClass::swapValidPacket() {
     // Swap the pointers for the packet buffer and valid packet so that the validated packet is now active
     unsigned char *swap = _validPacketAccessor;
     _validPacketAccessor = _packetBufferAccessor;
@@ -179,11 +181,11 @@ void RobotOpen::swapValidPacket() {
     _validPacketSize = _packetBufferSize;
 }
 
-void RobotOpen::outgoingDS() {
+void RobotOpenClass::outgoingDS() {
     _waitingPacket = true;
 }
 
-void RobotOpen::publishDS() {
+void RobotOpenClass::publishDS() {
     /* ---PACKET FORMAT---
      * Message Type (1 byte)
      * Protocol Version (1 byte)
@@ -224,7 +226,7 @@ void RobotOpen::publishDS() {
     }
 }
 
-unsigned int RobotOpen::calc_crc16(unsigned char *buf, unsigned short len) {
+unsigned int RobotOpenClass::calc_crc16(unsigned char *buf, unsigned short len) {
     unsigned short crc = 0;
     unsigned short i;
     for (i=0; i<len; i++)
@@ -232,7 +234,7 @@ unsigned int RobotOpen::calc_crc16(unsigned char *buf, unsigned short len) {
     return (crc);
 }
 
-bundleInfo RobotOpen::getBundleInfo(unsigned char bundleID) {
+bundleInfo RobotOpenClass::getBundleInfo(unsigned char bundleID) {
     unsigned int currentBundle = 0;
     unsigned int currentIndex = 3;
     while (currentIndex < _validPacketSize - 2) {
@@ -250,7 +252,7 @@ bundleInfo RobotOpen::getBundleInfo(unsigned char bundleID) {
     return error;
 }
 
-int RobotOpen::getComponent(unsigned char bundleID, int componentIndex) {
+int RobotOpenClass::getComponent(unsigned char bundleID, int componentIndex) {
     bundleInfo currentBundle = getBundleInfo(bundleID);
     if (currentBundle.length == 0 || componentIndex >= currentBundle.length || componentIndex < 0)	// error
         return -1;
@@ -259,7 +261,7 @@ int RobotOpen::getComponent(unsigned char bundleID, int componentIndex) {
     }
 }
 
-int RobotOpen::getBundleSize(unsigned char bundleID) {
+int RobotOpenClass::getBundleSize(unsigned char bundleID) {
     bundleInfo currentBundle = getBundleInfo(bundleID);
     if (currentBundle.length == 0)	// error
         return -1;
@@ -268,7 +270,7 @@ int RobotOpen::getBundleSize(unsigned char bundleID) {
     }
 }
 
-void RobotOpen::publishAnalog(int pin, unsigned char bundleID) {
+void RobotOpenClass::publishAnalog(int pin, unsigned char bundleID) {
     if (_outgoingPacketSize < 251 && !_waitingPacket) {
 		int valueRead = analogRead(pin);
         _outgoingPacket[_outgoingPacketSize] = 0x03;
@@ -282,7 +284,7 @@ void RobotOpen::publishAnalog(int pin, unsigned char bundleID) {
     }
 }
 
-void RobotOpen::publishDigital(int pin, unsigned char bundleID) {
+void RobotOpenClass::publishDigital(int pin, unsigned char bundleID) {
     if (_outgoingPacketSize < 252 && !_waitingPacket) {
 		pinMode(pin, INPUT);
 		int valueRead = digitalRead(pin);
@@ -298,7 +300,7 @@ void RobotOpen::publishDigital(int pin, unsigned char bundleID) {
     }
 }
 
-void RobotOpen::publishByte(unsigned char byteRead, unsigned char bundleID) {
+void RobotOpenClass::publishByte(unsigned char byteRead, unsigned char bundleID) {
     if (_outgoingPacketSize < 252 && !_waitingPacket) {
         _outgoingPacket[_outgoingPacketSize] = 0x02;
         _outgoingPacketSize++;
@@ -309,7 +311,7 @@ void RobotOpen::publishByte(unsigned char byteRead, unsigned char bundleID) {
     }
 }
 
-void RobotOpen::publishShort(unsigned int valueRead, unsigned char bundleID) {
+void RobotOpenClass::publishInt(unsigned int valueRead, unsigned char bundleID) {
     if (_outgoingPacketSize < 251 && !_waitingPacket) {
         _outgoingPacket[_outgoingPacketSize] = 0x03;
         _outgoingPacketSize++;
@@ -322,7 +324,7 @@ void RobotOpen::publishShort(unsigned int valueRead, unsigned char bundleID) {
     }
 }
 
-void RobotOpen::publishLong(long valueRead, unsigned char bundleID) {
+void RobotOpenClass::publishLong(long valueRead, unsigned char bundleID) {
     if (_outgoingPacketSize < 249 && !_waitingPacket) {
         _outgoingPacket[_outgoingPacketSize] = 0x05;
         _outgoingPacketSize++;
@@ -343,7 +345,7 @@ void RobotOpen::publishLong(long valueRead, unsigned char bundleID) {
     }
 }
 
-boolean RobotOpen::enabled() {
+boolean RobotOpenClass::enabled() {
     return _enabled;
 }
 
@@ -354,12 +356,12 @@ USBJoystick::USBJoystick(unsigned char bID)
 
 int USBJoystick::getIndex(int index)
 {
-    return RobotOpen::getComponent(_bundleID, index);
+    return RobotOpen.getComponent(_bundleID, index);
 }
 
 unsigned int USBJoystick::makePWM(int index, char mode)
 {
-	int val = RobotOpen::getComponent(_bundleID, index);
+	int val = RobotOpen.getComponent(_bundleID, index);
 	if (val == -1)	// there was an error - send PWM to neutral
 		return 127;
     if (mode == INVERT)
@@ -369,7 +371,7 @@ unsigned int USBJoystick::makePWM(int index, char mode)
 }
 
 boolean USBJoystick::getBtn(int index, char mode) {
-    if (RobotOpen::getComponent(_bundleID, index) == 0) {
+    if (RobotOpen.getComponent(_bundleID, index) == 0) {
         if (mode == INVERT)
         	return HIGH;
 		else
@@ -384,7 +386,7 @@ boolean USBJoystick::getBtn(int index, char mode) {
 }
 
 boolean USBJoystick::getDpad(int index, unsigned char compare, char mode) {
-    if (RobotOpen::getComponent(_bundleID, index) == compare) {
+    if (RobotOpen.getComponent(_bundleID, index) == compare) {
 		if (mode == INVERT)
         	return LOW;
 		else

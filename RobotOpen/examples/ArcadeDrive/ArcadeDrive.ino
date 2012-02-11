@@ -10,11 +10,7 @@ USBJoystick usb1('0');  // Assign the logitech USBJoystick object to bundle 0
 void setup()
 {
   /* Initiate comms */
-  RobotOpen::init();
-  
-  // Configure Digital I/O
-  pinMode(SIDECAR_DIGITAL1, OUTPUT);
-  pinMode(SIDECAR_DIGITAL2, OUTPUT);
+  RobotOpen.begin();
 }
 
 
@@ -35,12 +31,8 @@ void enabled() {
   else if (rightDrive < 0)
     rightDrive = 0;
   
-  RobotOpen::setPWM(SIDECAR_PWM9, 255 - leftDrive);
-  RobotOpen::setPWM(SIDECAR_PWM10, rightDrive);
-  
-  // Just like the setPWM function, you can set the mode of a button as NORMAL or INVERT
-  digitalWrite(SIDECAR_DIGITAL1, usb1.getBtn(LOGITECH_BTN1, NORMAL));
-  digitalWrite(SIDECAR_DIGITAL2, usb1.getDpad(LOGITECH_DPAD, UP, NORMAL));
+  RobotOpen.setPWM(SIDECAR_PWM1, 255 - leftDrive);
+  RobotOpen.setPWM(SIDECAR_PWM2, rightDrive);
 }
 
 
@@ -49,8 +41,7 @@ void enabled() {
  * to safe/disable values here
  */
 void disabled() {
-  digitalWrite(SIDECAR_DIGITAL1, LOW);
-  digitalWrite(SIDECAR_DIGITAL2, LOW);
+  // PWMs are automatically disabled
 }
 
 
@@ -60,12 +51,12 @@ void disabled() {
  * Specify a bundle ID with a single character (a-z, A-Z, 0-9) - Just make sure not to use the same twice!
  */
 void timedtasks() {
-  RobotOpen::publishAnalog(ANALOG1, 'A');   // Bundle A
-  RobotOpen::publishAnalog(ANALOG2, 'B');   // Bundle B
-  RobotOpen::publishAnalog(ANALOG3, 'C');   // Bundle C
-  RobotOpen::publishAnalog(ANALOG4, 'D');   // Bundle D
-  RobotOpen::publishAnalog(ANALOG5, 'E');   // Bundle E
-  RobotOpen::publishAnalog(ANALOG6, 'F');   // Bundle F
+  RobotOpen.publishAnalog(ANALOG0, 'A');   // Bundle A
+  RobotOpen.publishAnalog(ANALOG1, 'B');   // Bundle B
+  RobotOpen.publishAnalog(ANALOG2, 'C');   // Bundle C
+  RobotOpen.publishAnalog(ANALOG3, 'D');   // Bundle D
+  RobotOpen.publishAnalog(ANALOG4, 'E');   // Bundle E
+  RobotOpen.publishAnalog(ANALOG5, 'F');   // Bundle F
 }
 
 
@@ -73,11 +64,11 @@ void timedtasks() {
  * There's no need to touch anything here!!!
  */
 void loop() {
-  RobotOpen::pollDS();
-  if (RobotOpen::enabled())
+  RobotOpen.pollDS();
+  if (RobotOpen.enabled())
     enabled();
   else
     disabled();
   timedtasks();
-  RobotOpen::outgoingDS();
+  RobotOpen.outgoingDS();
 }

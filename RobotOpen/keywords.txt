@@ -1,6 +1,6 @@
 RobotOpen	KEYWORD1
 USBJoystick KEYWORD1
-init	KEYWORD2
+begin	KEYWORD2
 pollDS  KEYWORD2
 outgoingDS  KEYWORD2
 setPWM  KEYWORD2
@@ -10,7 +10,7 @@ getComponent    KEYWORD2
 publishAnalog   KEYWORD2
 publishDigital  KEYWORD2
 publishByte KEYWORD2
-publishShort    KEYWORD2
+publishInt    KEYWORD2
 publishLong KEYWORD2
 getIndex    KEYWORD2
 makePWM  KEYWORD2
