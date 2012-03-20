@@ -8,6 +8,24 @@
 
 #include "Arduino.h"
 
+// Xbox 360 Controller Mapping Windows
+#define XBOX_LEFTY 0
+#define XBOX_LEFTX 1
+#define XBOX_RIGHTY 2
+#define XBOX_RIGHTX 3
+#define XBOX_TRIGGERS 4
+#define XBOX_A_BTN 5
+#define XBOX_B_BTN 6
+#define XBOX_X_BTN 7
+#define XBOX_Y_BTN 8
+#define XBOX_LSHOULDER_BTN 9
+#define XBOX_RSHOULDER_BTN 10
+#define XBOX_BACK_BTN 11
+#define XBOX_START_BTN 12
+#define XBOX_LEFTBTN 13
+#define XBOX_RIGHTBTN 14
+#define XBOX_DPAD 15
+
 // Logitech Mapping Windows
 #define LOGITECH_RIGHTY 0
 #define LOGITECH_RIGHTX 1
