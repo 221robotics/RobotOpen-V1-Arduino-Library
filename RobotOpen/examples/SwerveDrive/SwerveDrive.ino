@@ -41,8 +41,8 @@ void enabled() {
   frontPOT += frontPotTurns * 1023;
   rearPOT += rearPotTurns * 1023;
     
-  int frontError = frontPOT - map(usb1.makePWM(LOGITECH_RIGHTX, NORMAL), 0, 255, frontMIN, frontMAX);  //Find error for front wheels
-  int rearError = rearPOT - map(usb1.makePWM(LOGITECH_RIGHTX, NORMAL), 0, 255, frontMIN, frontMAX);   //Find error for rear wheels
+  int frontError = frontPOT - map(usb1.makePWM(ANALOG_RIGHTX, NORMAL), 0, 255, frontMIN, frontMAX);  //Find error for front wheels
+  int rearError = rearPOT - map(usb1.makePWM(ANALOG_RIGHTX, NORMAL), 0, 255, frontMIN, frontMAX);   //Find error for rear wheels
       
   int rawFrontError = frontError;
   int rawRearError = rearError; 
@@ -71,8 +71,8 @@ void enabled() {
     RobotOpen.setPWM(SIDECAR_PWM4, 127);
           
   // Drive motors
-  RobotOpen.setPWM(SIDECAR_PWM1, usb1.makePWM(LOGITECH_LEFTY, NORMAL));
-  RobotOpen.setPWM(SIDECAR_PWM2, usb1.makePWM(LOGITECH_LEFTY, INVERT));
+  RobotOpen.setPWM(SIDECAR_PWM1, usb1.makePWM(ANALOG_LEFTY, NORMAL));
+  RobotOpen.setPWM(SIDECAR_PWM2, usb1.makePWM(ANALOG_LEFTY, INVERT));
 }
 
 

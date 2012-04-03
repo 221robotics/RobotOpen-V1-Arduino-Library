@@ -8,61 +8,24 @@
 
 #include "Arduino.h"
 
-// Xbox 360 Controller Mapping Windows
-#define XBOX_LEFTY 0
-#define XBOX_LEFTX 1
-#define XBOX_RIGHTY 2
-#define XBOX_RIGHTX 3
-#define XBOX_TRIGGERS 4
-#define XBOX_A_BTN 5
-#define XBOX_B_BTN 6
-#define XBOX_X_BTN 7
-#define XBOX_Y_BTN 8
-#define XBOX_LSHOULDER_BTN 9
-#define XBOX_RSHOULDER_BTN 10
-#define XBOX_BACK_BTN 11
-#define XBOX_START_BTN 12
-#define XBOX_LEFTBTN 13
-#define XBOX_RIGHTBTN 14
-#define XBOX_DPAD 15
-
-// Logitech Mapping Windows
-#define LOGITECH_RIGHTY 0
-#define LOGITECH_RIGHTX 1
-#define LOGITECH_LEFTY 2
-#define LOGITECH_LEFTX 3
-#define LOGITECH_DPAD 4
-#define LOGITECH_BTN1 5
-#define LOGITECH_BTN2 6
-#define LOGITECH_BTN3 7
-#define LOGITECH_BTN4 8
-#define LOGITECH_BTN5 9
-#define LOGITECH_BTN6 10
-#define LOGITECH_BTN7 11
-#define LOGITECH_BTN8 12
-#define LOGITECH_BTN9 13
-#define LOGITECH_BTN10 14
-#define LOGITECH_LEFTBTN 15
-#define LOGITECH_RIGHTBTN 16
-
-// Logitech Mapping OS X
-#define LOGITECH_BTN1_MAC 0
-#define LOGITECH_BTN2_MAC 1
-#define LOGITECH_BTN3_MAC 2
-#define LOGITECH_BTN4_MAC 3
-#define LOGITECH_BTN5_MAC 4
-#define LOGITECH_BTN6_MAC 5
-#define LOGITECH_BTN7_MAC 6
-#define LOGITECH_BTN8_MAC 7
-#define LOGITECH_BTN9_MAC 8
-#define LOGITECH_BTN10_MAC 9
-#define LOGITECH_LEFTBTN_MAC 10
-#define LOGITECH_RIGHTBTN_MAC 11
-#define LOGITECH_LEFTX_MAC 12
-#define LOGITECH_LEFTY_MAC 13
-#define LOGITECH_RIGHTX_MAC 14
-#define LOGITECH_RIGHTY_MAC 15
-#define LOGITECH_DPAD_MAC 16
+// Controller Aliases
+#define ANALOG_LEFTX 0x00
+#define ANALOG_LEFTY 0x01
+#define ANALOG_RIGHTX 0x02
+#define ANALOG_RIGHTY 0x03
+#define LEFT_ANALOG_BTN 0x04
+#define RIGHT_ANALOG_BTN 0x05
+#define DPAD 0x06
+#define BTN1 0x07
+#define BTN2 0x08
+#define BTN3 0x09
+#define BTN4 0x0A
+#define BTN5 0x0B
+#define BTN6 0x0C
+#define BTN7 0x0D
+#define BTN8 0x0E
+#define BTN9 0x0F
+#define BTN10 0x10
 
 // D-PAD Constants
 #define UP 0x3F

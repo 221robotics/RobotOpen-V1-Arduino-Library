@@ -24,7 +24,7 @@
 #define QUERY 0x03
 
 /* APPLICATION PARAMETERS */
-#define PROTOCOL_VER 0x01
+#define PROTOCOL_VER 0x02
 #define DEVICE_ID 0xFF
 #define FIRMWARE_VER 0x01
 
@@ -385,8 +385,9 @@ boolean USBJoystick::getBtn(int index, char mode) {
 	}
 }
 
-boolean USBJoystick::getDpad(int index, unsigned char compare, char mode) {
-    if (RobotOpen.getComponent(_bundleID, index) == compare) {
+boolean USBJoystick::getDpad(unsigned char compare, char mode) {
+    // index 6 is always DPAD
+    if (RobotOpen.getComponent(_bundleID, 6) == compare) {
 		if (mode == INVERT)
         	return LOW;
 		else

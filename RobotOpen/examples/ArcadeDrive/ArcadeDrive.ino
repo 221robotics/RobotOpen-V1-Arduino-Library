@@ -19,8 +19,8 @@ void setup()
  */
 void enabled() {
   // Constantly update PWM values with joystick values
-  int leftDrive = usb1.makePWM(LOGITECH_RIGHTY, INVERT) - (127 - usb1.makePWM(LOGITECH_RIGHTX, NORMAL));
-  int rightDrive = usb1.makePWM(LOGITECH_RIGHTY, INVERT) + (127 - usb1.makePWM(LOGITECH_RIGHTX, NORMAL));
+  int leftDrive = usb1.makePWM(ANALOG_RIGHTY, INVERT) - (127 - usb1.makePWM(ANALOG_RIGHTX, NORMAL));
+  int rightDrive = usb1.makePWM(ANALOG_RIGHTY, INVERT) + (127 - usb1.makePWM(ANALOG_RIGHTX, NORMAL));
   
   if (leftDrive > 255)
     leftDrive = 255;

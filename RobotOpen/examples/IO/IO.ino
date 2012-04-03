@@ -23,8 +23,8 @@ void setup()
  */
 void enabled() {
   // Just like the setPWM function, you can set the mode of a button as NORMAL or INVERT
-  digitalWrite(SIDECAR_DIGITAL1, usb1.getBtn(LOGITECH_BTN1, NORMAL));
-  digitalWrite(SIDECAR_DIGITAL2, usb1.getDpad(LOGITECH_DPAD, UP, NORMAL));
+  digitalWrite(SIDECAR_DIGITAL1, usb1.getBtn(BTN1, NORMAL));
+  digitalWrite(SIDECAR_DIGITAL2, usb1.getDpad(UP, NORMAL));
 }
 
 

@@ -19,8 +19,8 @@ void setup()
  */
 void enabled() {
   // Constantly update PWM values with joystick values
-  RobotOpen.setPWM(SIDECAR_PWM1, usb1.makePWM(LOGITECH_LEFTY, NORMAL));
-  RobotOpen.setPWM(SIDECAR_PWM2, usb1.makePWM(LOGITECH_RIGHTY, INVERT));
+  RobotOpen.setPWM(SIDECAR_PWM1, usb1.makePWM(ANALOG_LEFTY, NORMAL));
+  RobotOpen.setPWM(SIDECAR_PWM2, usb1.makePWM(ANALOG_RIGHTY, INVERT));
 }
 
 
