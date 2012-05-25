@@ -129,7 +129,7 @@ class USBJoystick
     int getIndex(int index);
     unsigned int makePWM(int index, char mode);
     boolean getBtn(int index, char mode);
-    boolean getDpad(int index, unsigned char compare, char mode);
+    boolean getDpad(unsigned char compare, char mode);
     
   private:
     unsigned char _bundleID;
