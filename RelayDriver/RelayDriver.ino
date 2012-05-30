@@ -6,9 +6,6 @@ int currentByte = 0;
 unsigned long packetMillis = 0;
 boolean in_packet = false;
 boolean last_enabled = false;
-Servo servos[10];
-int enablePin = 13;
-int disablePin = 12;
 
 /* CRC lookup table */
 short crctab[] PROGMEM =
@@ -49,10 +46,12 @@ short crctab[] PROGMEM =
 
 
 void setup() {
-  pinMode(enablePin, OUTPUT);
-  pinMode(disablePin, OUTPUT);
-  digitalWrite(enablePin, LOW);
-  digitalWrite(disablePin, HIGH);
+  for(int i=0; i < 10; i++) {
+    // setup pins
+    pinMode((i+2), OUTPUT);
+    digitalWrite((i+2), LOW);
+  }
+  
   Serial.begin(115200);
 }
 
@@ -83,15 +82,9 @@ void loop() {
 void processSerial() {
   unsigned int crc16_recv = (serialData[12] << 8) | serialData[13];  
   
-  if (calc_crc16(serialData, 12) == crc16_recv) {
-    if (last_enabled == false) {
+  if (calc_crc16_1bit(serialData, 12) == crc16_recv) {
+    if (last_enabled == false)
       last_enabled = true;
-      for(int i=0; i < 10; i++) {
-        servos[i].attach(i+2);
-      }
-      digitalWrite(enablePin, HIGH);
-      digitalWrite(disablePin, LOW);
-    }
     packetMillis = millis();
     update();
   }
@@ -99,23 +92,27 @@ void processSerial() {
 
 void update() {
   for(int i=0; i < 10; i++) {
-    servos[i].write((int)map((int)serialData[i+2], 0, 255, 544, 2400));
+    // write pneumatic digitals
+    if ((int)serialData[i+2] == 0xFF)
+      digitalWrite((i+2), HIGH);
+    else
+      digitalWrite((i+2), LOW);
   }
 }
 
 void disabled() {
   last_enabled = false;
-  digitalWrite(enablePin, LOW);
-  digitalWrite(disablePin, HIGH);
   for(int i=0; i < 10; i++) {
-    servos[i].detach();
+    // turn off all relays
+    digitalWrite((i+2), LOW);
   }
 }
 
-int calc_crc16(unsigned char *buf, unsigned short len) {
+int calc_crc16_1bit(unsigned char *buf, unsigned short len) {
     unsigned short crc = 0;
     unsigned short i;
     for (i=0; i<len; i++)
         crc = ((crc >> 8) & 0xff) ^ pgm_read_word_near(crctab + (unsigned int)((crc ^ *buf++) & 0xff));
+    crc++; // add a bit
     return (crc);
 }
