@@ -4,6 +4,7 @@ begin	KEYWORD2
 pollDS  KEYWORD2
 outgoingDS  KEYWORD2
 setPWM  KEYWORD2
+setRelay  KEYWORD2
 enabled KEYWORD2
 getBundleSize    KEYWORD2
 getComponent    KEYWORD2

@@ -75,6 +75,7 @@ static unsigned char _packetBuffer[256];  // Byte array for incoming data
 static unsigned char _validPacket[256];    // Byte array of valid data
 static unsigned char _outgoingPacket[256];  // Data to publish to DS is stored into this array
 static unsigned char _pwmSerialData[14];
+static unsigned char _relaySerialData[14];
 static unsigned char *_packetBufferAccessor;
 static unsigned char *_validPacketAccessor;
 static unsigned int _packetBufferSize = 0;
@@ -101,8 +102,12 @@ void RobotOpenClass::begin() {
     _validPacketAccessor = _validPacket;
 	_pwmSerialData[0] = 0xFF;
 	_pwmSerialData[1] = 0x00;
-	for (int i = 2; i <= 11; i++)
+	_relaySerialData[0] = 0xFF;
+	_relaySerialData[1] = 0x00;
+	for (int i = 2; i <= 11; i++) {
 		_pwmSerialData[i] = 127;
+		_relaySerialData[i] = 0;
+	}
     // Start Ethernet, UDP, and Serial
     Ethernet.begin(mac,ip);
     Udp.begin(PORT);
@@ -155,6 +160,12 @@ void RobotOpenClass::parsePacket() {
 	        _pwmSerialData[13] = (unsigned char)(crc16_pwm & 0xFF);
 			for (int i = 0; i <= 13; i++)
 				Serial.write(_pwmSerialData[i]);
+			// Update the Relay values over serial
+			unsigned int crc16_relay = calc_crc16(_relaySerialData, 12) + 1;
+	        _relaySerialData[12] = crc16_relay >> 8;
+	        _relaySerialData[13] = (unsigned char)(crc16_relay & 0xFF);
+			for (int i = 0; i <= 13; i++)
+				Serial.write(_relaySerialData[i]);
 			// Make sure the system stays active
             _lastUpdate = millis();
         }
@@ -169,6 +180,14 @@ void RobotOpenClass::setPWM(int pwmChannel, int value) {
 		else if (value < 0)
 			value = 0;
 		_pwmSerialData[pwmChannel+1] = (unsigned char)value;
+	}
+}
+
+void RobotOpenClass::setRelay(int relayChannel, int value) {
+	if (relayChannel > 0 && relayChannel <= 10) {
+		if (value != 0xFF)
+			value = 0;
+		_relaySerialData[relayChannel+1] = (unsigned char)value;
 	}
 }
 

@@ -8,6 +8,10 @@
 
 #include "Arduino.h"
 
+// Relay Constants
+#define ON 0xFF
+#define OFF 0x00
+
 // Controller Aliases
 #define ANALOG_LEFTX 0x00
 #define ANALOG_LEFTY 0x01
@@ -87,6 +91,9 @@ public:
 
 	// Sets a PWM output that is fed to the PWM generator chip
 	static void setPWM(int pwmChannel, int value);
+	
+	// Sets a Relay output that is fed to the Relay generator chip
+	static void setRelay(int relayChannel, int value);
     
     // Tells us if the robot is enabled
     static boolean enabled();
