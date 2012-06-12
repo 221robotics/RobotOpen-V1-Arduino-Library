@@ -70,6 +70,16 @@
 #define SIDECAR_PWM8 8
 #define SIDECAR_PWM9 9
 #define SIDECAR_PWM10 10
+#define RELAY_1 1
+#define RELAY_2 2
+#define RELAY_3 3
+#define RELAY_4 4
+#define RELAY_5 5
+#define RELAY_6 6
+#define RELAY_7 7
+#define RELAY_8 8
+#define RELAY_9 9
+#define RELAY_10 10
 
 
 typedef struct {
