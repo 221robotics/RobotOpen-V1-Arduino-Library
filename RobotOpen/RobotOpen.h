@@ -103,7 +103,7 @@ public:
 	static void setPWM(int pwmChannel, int value);
 	
 	// Sets a Relay output that is fed to the Relay generator chip
-	static void setRelay(int relayChannel, int value);
+	static void setRelay(int relayChannel, boolean value);
     
     // Tells us if the robot is enabled
     static boolean enabled();

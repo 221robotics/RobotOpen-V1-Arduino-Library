@@ -183,11 +183,14 @@ void RobotOpenClass::setPWM(int pwmChannel, int value) {
 	}
 }
 
-void RobotOpenClass::setRelay(int relayChannel, int value) {
+void RobotOpenClass::setRelay(int relayChannel, boolean value) {
+    unsigned char relayValue;
 	if (relayChannel > 0 && relayChannel <= 10) {
-		if (value != 0xFF)
-			value = 0;
-		_relaySerialData[relayChannel+1] = (unsigned char)value;
+		if (value == HIGH)
+			relayValue = 0xFF;
+        else
+            relayValue = 0x00;
+		_relaySerialData[relayChannel+1] = relayValue;
 	}
 }
 
