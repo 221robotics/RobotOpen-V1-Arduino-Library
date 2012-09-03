@@ -104,9 +104,9 @@ void update() {
   for(int i=0; i < 10; i++) {
     // write pneumatic digitals
     if ((int)serialData[i+2] == 0xFF)
-      digitalWrite((11-i), HIGH);
+      digitalWrite((i+2), HIGH);
     else
-      digitalWrite((11-i), LOW);
+      digitalWrite((i+2), LOW);
   }
 }
 

@@ -8,7 +8,7 @@
 
 #include "Arduino.h"
 
-// Relay Constants
+// Solenoid Constants
 #define ON 0xFF
 #define OFF 0x00
 
@@ -70,16 +70,16 @@
 #define SIDECAR_PWM8 8
 #define SIDECAR_PWM9 9
 #define SIDECAR_PWM10 10
-#define RELAY_1 1
-#define RELAY_2 2
-#define RELAY_3 3
-#define RELAY_4 4
-#define RELAY_5 5
-#define RELAY_6 6
-#define RELAY_7 7
-#define RELAY_8 8
-#define RELAY_9 9
-#define RELAY_10 10
+#define SOLENOID_1 1
+#define SOLENOID_2 2
+#define SOLENOID_3 3
+#define SOLENOID_4 4
+#define SOLENOID_5 5
+#define SOLENOID_6 6
+#define SOLENOID_7 7
+#define SOLENOID_8 8
+#define SOLENOID_9 9
+#define SOLENOID_10 10
 
 
 typedef struct {
@@ -102,8 +102,8 @@ public:
 	// Sets a PWM output that is fed to the PWM generator chip
 	static void setPWM(int pwmChannel, int value);
 	
-	// Sets a Relay output that is fed to the Relay generator chip
-	static void setSolenoid(int relayChannel, boolean value);
+	// Sets a Solenoid output that is fed to the Solenoid generator chip
+	static void setSolenoid(int solenoidChannel, boolean value);
     
     // Tells us if the robot is enabled
     static boolean enabled();
