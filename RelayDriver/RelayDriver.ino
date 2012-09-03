@@ -101,12 +101,12 @@ void processSerial() {
 }
 
 void update() {
-  for(int i=0; i < 10; i++) {
+  for(int i=0; i < 8; i++) {
     // write pneumatic digitals
     if ((int)serialData[i+2] == 0xFF)
-      digitalWrite((i+2), HIGH);
+      digitalWrite((9-i), HIGH);
     else
-      digitalWrite((i+2), LOW);
+      digitalWrite((9-i), LOW);
   }
 }
 
