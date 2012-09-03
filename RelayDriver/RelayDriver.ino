@@ -6,6 +6,8 @@ int currentByte = 0;
 unsigned long packetMillis = 0;
 boolean in_packet = false;
 boolean last_enabled = false;
+int enablePin = 13;
+int disablePin = 12;
 
 /* CRC lookup table */
 short crctab[] PROGMEM =
@@ -46,6 +48,11 @@ short crctab[] PROGMEM =
 
 
 void setup() {
+  pinMode(enablePin, OUTPUT);
+  pinMode(disablePin, OUTPUT);
+  digitalWrite(enablePin, LOW);
+  digitalWrite(disablePin, HIGH);
+
   for(int i=0; i < 10; i++) {
     // setup pins
     pinMode((i+2), OUTPUT);
@@ -83,8 +90,11 @@ void processSerial() {
   unsigned int crc16_recv = (serialData[12] << 8) | serialData[13];  
   
   if (calc_crc16_1bit(serialData, 12) == crc16_recv) {
-    if (last_enabled == false)
+    if (last_enabled == false) {
       last_enabled = true;
+      digitalWrite(enablePin, HIGH);
+      digitalWrite(disablePin, LOW);
+    }
     packetMillis = millis();
     update();
   }
@@ -94,14 +104,16 @@ void update() {
   for(int i=0; i < 10; i++) {
     // write pneumatic digitals
     if ((int)serialData[i+2] == 0xFF)
-      digitalWrite((i+2), HIGH);
+      digitalWrite((11-i), HIGH);
     else
-      digitalWrite((i+2), LOW);
+      digitalWrite((11-i), LOW);
   }
 }
 
 void disabled() {
   last_enabled = false;
+  digitalWrite(enablePin, LOW);
+  digitalWrite(disablePin, HIGH);
   for(int i=0; i < 10; i++) {
     // turn off all relays
     digitalWrite((i+2), LOW);

@@ -183,7 +183,7 @@ void RobotOpenClass::setPWM(int pwmChannel, int value) {
 	}
 }
 
-void RobotOpenClass::setRelay(int relayChannel, boolean value) {
+void RobotOpenClass::setSolenoid(int relayChannel, boolean value) {
     unsigned char relayValue;
 	if (relayChannel > 0 && relayChannel <= 10) {
 		if (value == HIGH)
